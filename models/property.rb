@@ -68,7 +68,15 @@ class Property
         return Property.new(property[0])
       end
 
-
+      def Property.find_by_address(address)
+        db = PG.connect({dbname: 'property_tracker', host: 'localhost'})
+        sql = "SELECT * FROM propertys WHERE address = $1"
+        values = [address]
+        db.prepare("find_by_address", sql)
+        property = db.exec_prepared("find_by_address", values)
+        db.close()
+        return Property.new(property[0])
+      end
 
       def Property.all()
         db = PG.connect({dbname: 'property_tracker', host: 'localhost'})

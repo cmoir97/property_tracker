@@ -30,7 +30,7 @@ class Property
       @id = db.exec_prepared("save", values)[0]["id"].to_i
       db.close()
 
-    end
+  end
 
     def Property.all()
       db = PG.connect({dbname: 'property_tracker', host: 'localhost'})
@@ -41,8 +41,16 @@ class Property
       return propertys.map { |property| Property.new(property)  }
     end
 
+    def Property.delete_all()
+      db = PG.connect({dbname: 'property_tracker', host: 'localhost'})
+      sql = "DELETE FROM propertys"
+      db.prepare("delete_all", sql)
+      db.exec_prepared("delete_all")
+      db.close()
+
+    end
 
 
 
 
-  end
+end
